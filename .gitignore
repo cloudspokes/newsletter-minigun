@@ -19,6 +19,7 @@ node_modules
 *.iml
 .DS_Store
 Thumbs.db
+.env
 
 public/css/styles.css
 
