@@ -1,0 +1,33 @@
+extends ../layout
+
+block content
+  .page-header
+    h1 Prepare to Fire!!
+
+  form.form-horizontal(role='form', method='POST')
+    input(type='hidden', name='_csrf', value=token)
+    .form-group
+      label(class='col-sm-2 control-label', for='group') Send to
+      .col-sm-8
+        select.form-control(type='select', name='group', id='group')
+          option(value="all") Everyone!!!
+          option(value="studio") Studio Members
+          option(value="dev") Development Members
+          option(value="data") Data Science Members        
+    .form-group
+      label(class='col-sm-2 control-label', for='template') Use template
+      .col-sm-8
+        select.form-control(type='text', name='template', id='template')
+          option(value="all") All Members Template
+          option(value="studio") Studio Template
+          option(value="dev") Development Template
+          option(value="data") Data Science Template
+    .form-group
+      .col-sm-offset-2.col-sm-8      
+      #summernote
+        | Summernote              
+    .form-group
+      .col-sm-offset-2.col-sm-8
+        button.btn.btn-default(type='submit')
+          i.fa.fa-mail-forward
+          | Preview
