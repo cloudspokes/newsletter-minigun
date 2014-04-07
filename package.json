@@ -11,7 +11,7 @@
   },
   "engines": {
     "node": "0.10.x"
-  },  
+  },
   "dependencies": {
     "async": "~0.2.10",
     "bcrypt-nodejs": "~0.0.3",
@@ -47,7 +47,8 @@
     "twit": "~1.1.12",
     "underscore": "~1.6.0",
     "uglify-js": "~2.4.12",
-    "validator": "~3.4.0"
+    "validator": "~3.4.0",
+    "tinyliquid": "~0.2.16"
   },
   "devDependencies": {
     "mocha": "~1.17.1",

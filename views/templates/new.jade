@@ -1,0 +1,37 @@
+extends ../layout
+
+block content
+  .page-header
+    h1= title
+    p.lead
+      | Create a new template to be used to send out email.
+
+  form.form-horizontal(role='form', action="/templates/create" method='POST')
+    input(type='hidden', name='_csrf', value=token)
+    .form-group
+      label(class='col-sm-2 control-label', for='name') Name
+      .col-sm-8
+        input.form-control(type='text', name='name', id='name', autofocus=true)   
+    .form-group
+      label(class='col-sm-2 control-label', for='type') Type
+      .col-sm-5
+        select.form-control(type='text', name='type', id='type')
+          option(value="Newsletter") Newsletter
+          option(value="Newsletter - Dev") Newsletter - Dev
+          option(value="Newsletter - Data") Newsletter - Data
+          option(value="Newsletter - Studio") Newsletter - Studio
+          option(value="Ad Hoc") Ad Hoc
+    .form-group
+      label(class='col-sm-2 control-label', for='body') Body
+      .col-sm-9
+        textarea.form-control(type='text', name='body', id='body', rows='20')   
+    .form-group
+      label(class='col-sm-2 control-label', for='available') Available for use?
+      .col-sm-2
+        select.form-control(type='text', name='available', id='available')
+          option(value="true") Yes
+          option(value="false") No
+    .form-group
+      .col-sm-offset-2.col-sm-8
+        button.btn.btn-default(type='submit')
+          | Save
