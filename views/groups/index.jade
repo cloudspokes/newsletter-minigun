@@ -1,0 +1,23 @@
+extends ../layout
+
+block content
+  h1= title
+  p.lead
+    | Here are the groups of members that are currently in the database. A group is defined by a query that returns a collection of members. These groups are used as the recipients for the newsletter. Feel free to 
+    a(href="/groups/new") create a new one
+    | .
+  table.table.table-striped
+    thead
+      tr
+        th Name
+        th Description
+        th Available for Use?
+        th
+        th
+    for record in records
+      tr
+        td= record.name
+        td= record.description
+        td= record.availableForUse
+        td: a(href="/groups/#{record.id}") View
+        td: a(href="/groups/#{record.id}/edit") Edit

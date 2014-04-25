@@ -4,9 +4,9 @@ block content
   .page-header
     h1= title
     p.lead
-      | Tweak it to your heart's content. 
+      | Tweak this groups to affect the members that receive the emai.
 
-  form.form-horizontal(role='form', action="/templates/#{record.id}" method='POST')
+  form.form-horizontal(role='form', action="/groups/#{record.id}" method='POST')
     input(type='hidden', name='_csrf', value=token)
     input(type='hidden', name='_method', value='PUT')
     .form-group
@@ -14,19 +14,14 @@ block content
       .col-sm-8
         input.form-control(type='text', name='name', id='name', value=record.name)   
     .form-group
-      label(class='col-sm-2 control-label', for='type') Type
-      .col-sm-5
-        select.form-control(type='text', name='type', id='type')
-          option(value="Newsletter") Newsletter
-          option(value="Newsletter - Dev") Newsletter - Dev
-          option(value="Newsletter - Data") Newsletter - Data
-          option(value="Newsletter - Studio") Newsletter - Studio
-          option(value="Ad Hoc") Ad Hoc
+      label(class='col-sm-2 control-label', for='description') Short Description
+      .col-sm-8
+        input.form-control(type='text', name='description', id='description', value=record.description)  
     .form-group
-      label(class='col-sm-2 control-label', for='body') Body
+      label(class='col-sm-2 control-label', for='query') Query
       .col-sm-9
-        textarea.form-control(type='text', name='body', id='body', rows='20')
-          =record.body
+        textarea.form-control(type='text', name='query', id='query', rows='5')
+          =record.query
     .form-group
       label(class='col-sm-2 control-label', for='availableForUse') Available for use?
       .col-sm-2

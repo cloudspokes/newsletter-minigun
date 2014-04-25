@@ -1,0 +1,32 @@
+extends ../layout
+
+block content
+  .page-header
+    h1= title
+    p.lead
+      | Create a new challenges query that defines the challenge to be used in the templates.
+
+  form.form-horizontal(role='form', action="/challenges/create" method='POST')
+    input(type='hidden', name='_csrf', value=token)
+    .form-group
+      label(class='col-sm-2 control-label', for='name') Name
+      .col-sm-8
+        input.form-control(type='text', name='name', id='name', autofocus=true)   
+    .form-group
+      label(class='col-sm-2 control-label', for='description') Short Description
+      .col-sm-8
+        input.form-control(type='text', name='description', id='description')           
+    .form-group
+      label(class='col-sm-2 control-label', for='query') Query
+      .col-sm-9
+        textarea.form-control(type='text', name='query', id='query', rows='5')   
+    .form-group
+      label(class='col-sm-2 control-label', for='available') Available for use?
+      .col-sm-2
+        select.form-control(type='text', name='available', id='available')
+          option(value="true") Yes
+          option(value="false") No
+    .form-group
+      .col-sm-offset-2.col-sm-8
+        button.btn.btn-default(type='submit')
+          | Save

@@ -21,8 +21,25 @@ html
       _gaq.push(['_setAccount', 'UA-XXXXX-X']);
       _gaq.push(['_trackPageview']);
 
+      function reloadPage() {
+        var templateEl = document.getElementById('template')
+        var templateSel = templateEl.options[templateEl.selectedIndex].value;   
+        var challengesEl = document.getElementById('challengesQuery')
+        var challengesSel = challengesEl.options[challengesEl.selectedIndex].value;       
+        window.location.href = '/campaigns/start?t=' + templateSel + '&cq=' + challengesSel
+      }
+
+      function preview() {
+        var templateEl = document.getElementById('template')
+        var templateSel = templateEl.options[templateEl.selectedIndex].value;      
+        var groupEl = document.getElementById('group')
+        var groupSel = groupEl.options[groupEl.selectedIndex].value;       
+        var challengesEl = document.getElementById('challengesQuery')
+        var challengesSel = challengesEl.options[challengesEl.selectedIndex].value;            
+        window.open('/campaigns/preview?t='+templateSel+'&g='+groupSel+'&c='+challengesSel, 'preview')
+      }
+
       (function() {
-        $('#summernote').summernote({height: 300});
         var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
         ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);

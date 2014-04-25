@@ -14,14 +14,6 @@ module.exports = {
     password: process.env.SENDGRID_PASSWORD || 'Your SendGrid Password'
   },
 
-  githubAuth: true,
-  github: {
-    clientID: process.env.GITHUB_ID || 'Your ID',
-    clientSecret: process.env.GITHUB_SECRET || 'Your Secret',
-    callbackURL: '/auth/github/callback',
-    passReqToCallback: true
-  },
-
   googleAuth: true,
   google: {
     clientID: process.env.GOOGLE_ID || 'Your Client ID',

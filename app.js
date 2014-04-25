@@ -10,6 +10,7 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var expressValidator = require('express-validator');
 var connectAssets = require('connect-assets');
+var nforce = require('nforce');
 
 /**
  * Load controllers.
@@ -20,6 +21,8 @@ var shootController = require('./controllers/shoot');
 var analyticsController = require('./controllers/analytics');
 var templatesController = require('./controllers/templates');
 var groupsController = require('./controllers/groups');
+var challengesController = require('./controllers/challenges');
+var campaignsController = require('./controllers/campaigns');
 var userController = require('./controllers/user');
 
 /**
@@ -42,6 +45,24 @@ var app = express();
 mongoose.connect(secrets.db);
 mongoose.connection.on('error', function() {
   console.error('✗ MongoDB Connection Error. Please make sure MongoDB is running.');
+});
+
+/**
+ * Salesforce configuration.
+ */
+
+var org = nforce.createConnection({
+  clientId: process.env.SFDC_CLIENT_ID,
+  clientSecret: process.env.SFDC_CLIENT_SECRET,
+  redirectUri: 'http://localhost:3000/oauth/_callback',
+  environment: 'production',  // optional, salesforce 'sandbox' or 'production', production default
+  mode: 'single' // optional, 'single' or 'multi' user mode, multi default
+});
+
+org.authenticate({ username: process.env.SFDC_USERNAME, password: process.env.SFDC_PASSWORD}, function(err, resp){
+  // the oauth object was stored in the connection object
+  if(err) console.error('✗ Could not connect to Saleforce org.');
+  if(!err) console.error('✔ Successfully authenticated to Salesforce org.');
 });
 
 /**
@@ -78,6 +99,7 @@ app.use(express.csrf());
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(function(req, res, next) {
+  res.locals.org = org;
   res.locals.user = req.user;
   res.locals.token = req.csrfToken();
   res.locals.secrets = secrets;
@@ -114,6 +136,24 @@ app.get('/templates/:id', templatesController.show);
 app.get('/templates/:id/edit', templatesController.edit);
 app.put('/templates/:id', templatesController.update);
 app.get('/groups', groupsController.index);
+app.get('/groups/new', groupsController.new);
+app.post('/groups/create', groupsController.create);
+app.get('/groups/:id', groupsController.show);
+app.get('/groups/:id/edit', groupsController.edit);
+app.put('/groups/:id', groupsController.update);
+app.get('/challenges', challengesController.index);
+app.get('/challenges/new', challengesController.new);
+app.post('/challenges/create', challengesController.create);
+app.get('/challenges/:id', challengesController.show);
+app.get('/challenges/:id/edit', challengesController.edit);
+app.put('/challenges/:id', challengesController.update);
+app.get('/campaigns', campaignsController.index);
+app.get('/campaigns/start', campaignsController.start);
+app.get('/campaigns/preview', campaignsController.preview);
+app.get('/campaigns/new', campaignsController.new);
+app.post('/campaigns/create', campaignsController.create);
+app.get('/campaigns/:id', campaignsController.show);
+
 app.get('/login', userController.getLogin);
 app.post('/login', userController.postLogin);
 app.get('/logout', userController.logout);
@@ -128,10 +168,6 @@ app.get('/account/unlink/:provider', passportConf.isAuthenticated, userControlle
  * OAuth routes for sign-in.
  */
 
-app.get('/auth/github', passport.authenticate('github'));
-app.get('/auth/github/callback', passport.authenticate('github', { failureRedirect: '/login' }), function(req, res) {
-  res.redirect(req.session.returnTo || '/');
-});
 app.get('/auth/google', passport.authenticate('google', { scope: 'profile email' }));
 app.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login' }), function(req, res) {
   res.redirect(req.session.returnTo || '/');

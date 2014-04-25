@@ -1,0 +1,21 @@
+extends ../layout
+
+block content
+  h1= title
+  p.lead
+    | Mail campaigns that are either in progress or have been sent out.  Feel free to 
+    a(href="/campaigns/start") create a new one
+    | .
+  table.table.table-striped
+    thead
+      tr
+        th Name
+        th Sent?
+        th Description
+        th Recipients
+    for record in records
+      tr
+        td: a(href="/campaigns/#{record.id}") #{record.name}
+        td= record.sent
+        td= record.description
+        td= record.group[0].name

@@ -1,0 +1,99 @@
+extends ../layout
+
+block content
+  .page-header
+    h1= title
+    p.lead
+      if !record.sent
+        | Feel free to 
+        a(href="/challenges/#{record.id}/edit") edit it
+        |  if you need to.    
+
+  div.row
+    div.col-md-6
+      dl.dl-horizontal.lead
+        dt Name
+        dd= record.name
+        dt Description
+        dd= record.description
+        dt Email Template
+        dd= record.template[0].name
+        dt Group
+        dd= record.group[0].name
+        dt Challenges
+        dd= record.challengesQuery[0].name
+
+    div.col-md-6
+      dl.dl-horizontal.lead
+        dt Sent?
+        dd= record.sent
+        dt Date Sent
+        if record.sentDate
+          dd= record.sentDate
+        else
+          dd &nbsp;
+        dt Recipients
+        dd= record.recipients
+        dt % Opens
+        dd 83%
+        dt % Clicks
+        dd 58%   
+
+        br
+        button.btn.btn-default(type='button', style='margin-left:50px')
+          | Shoot this Campaign out da Minigun!    
+
+
+  br
+  br
+  div.row
+      div.col-md-3.text-center
+        h2
+          | 1058
+        | Opened
+      div.col-md-3.text-center
+        h2
+          | 856
+        | Clicked
+      div.col-md-3.text-center
+        h2
+          | 124
+        | Bounced
+      div.col-md-3.text-center
+        h2
+          | 2
+        | Unsubscribed
+
+  hr
+  div#chart_div(style='width:1000px')
+
+  hr
+  form.form-horizontal(role='form', )
+    input(type='hidden', name='content', id='content' value=record.content) 
+    .form-group
+      .col-sm-offset-2.col-sm-8      
+      #summernote       
+
+  script.
+    $('#summernote').summernote({height: 300, toolbar: []})
+    $('#summernote').code($('#content').val())
+
+  script(src='https://www.google.com/jsapi')    
+  script.
+    google.load("visualization", "1", {packages:["corechart"]})
+    google.setOnLoadCallback(drawChart)
+    function drawChart() {
+      var data = google.visualization.arrayToDataTable([
+          ['Day', 'Open', 'Click'],
+          ['9am',  0,      0],
+          ['10am',  1150,      460],
+          ['11am',  1225,       900],
+          ['Noon',  1300,       1075]
+        ])
+      var options = { 
+        title: '24 Hour Performance',
+        legend: { position: 'bottom' }
+      }
+      var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+      chart.draw(data, options)
+    }

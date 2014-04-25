@@ -2,9 +2,9 @@ var mongoose = require('mongoose');
 
 var schema = new mongoose.Schema({
   name: {type: String, trim: true },
-  type: {type: String, trim: true},
+  description: { type: String, trim: true},
+  query: {type: String, trim: true},
   availableForUse: {type: Boolean, default: 1 },
-  body: { type: String, trim: true}
 });
 
-module.exports = mongoose.model('Template', schema);
+module.exports = mongoose.model('Group', schema);

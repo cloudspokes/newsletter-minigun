@@ -12,14 +12,14 @@
         li(class=title=='Home'?'active':undefined)
           a(href='/') Home
         if user
-          li(class=title=='Shoot'?'active':undefined)
-            a(href='/shoot') Shoot
-          li(class=title=='Analytics'?'active':undefined)
-            a(href='/analytics') Analytics
-          li(class=title=='Groups'?'active':undefined)
-            a(href='/groups') Groups            
+          li(class=title=='Campaigns'?'active':undefined)
+            a(href='/campaigns') Campaigns
           li(class=title=='Templates'?'active':undefined)
-            a(href='/templates') Templates
+            a(href='/templates') Templates            
+          li(class=title=='Groups'?'active':undefined)
+            a(href='/groups') Groups  
+          li(class=title=='Challenges Data'?'active':undefined)
+            a(href='/challenges') Challenges Data          
       ul.nav.navbar-nav.navbar-right
         if !user
           li(class=title=='Login'?'active':undefined)

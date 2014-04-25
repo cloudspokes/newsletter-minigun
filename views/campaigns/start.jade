@@ -1,0 +1,63 @@
+extends ../layout
+
+block content
+  .page-header
+    h1= title
+    p.lead
+      | Kick off a new campaign to send out! Select a template and challengs to populate the editor.
+
+  form.form-horizontal(role='form', action="/campaigns/create" method='POST')
+    input(type='hidden', name='_csrf', value=token)
+    input(type='hidden', name='content', id='content' value=html) 
+    .form-group
+      label(class='col-sm-2 control-label', for='query') Email Template 
+      .col-sm-5
+        select.form-control(type='text', name='template', id='template', onchange='reloadPage()', required)
+          each template in templates
+            option(value=template._id, selected=String(template._id) === templateId) #{template.name}
+       .col-sm-2
+         div(style="padding-top:5px")
+           a(href="/templates/") View
+    .form-group
+      label(class='col-sm-2 control-label', for='challengesQuery') Challenges
+      .col-sm-5
+        select.form-control(type='text', name='challengesQuery', id='challengesQuery', onchange='reloadPage()', required)
+          each cq in challenges
+            option(value=cq._id, selected=String(cq._id) === cqId) #{cq.name}
+       .col-sm-2
+         div(style="padding-top:5px")
+           a(href="/challenges/") View      
+    .form-group
+      label(class='col-sm-2 control-label', for='group') Recipients
+      .col-sm-5
+        select.form-control(type='text', name='group', id='group', required)
+          each group in groups
+            option(value=group._id) #{group.name}       
+       .col-sm-2
+         div(style="padding-top:5px")
+           a(href="/groups/") View    
+    .form-group
+      label(class='col-sm-2 control-label', for='name') Name
+      .col-sm-6
+        input.form-control(type='text', name='name', id='name', autofocus=true, required)    
+    .form-group
+      label(class='col-sm-2 control-label', for='description') Short Description
+      .col-sm-8
+        input.form-control(type='text', name='description', id='description', required)                
+    .form-group
+      .col-sm-offset-2.col-sm-8
+        button.btn.btn-default(type='submit')
+          | Save & Next
+    .form-group
+      .col-sm-offset-2.col-sm-8      
+      #summernote          
+
+  if html
+    script.
+      $('#summernote').summernote({height: 300})
+      $('#summernote').code($('#content').val())
+      $('#summernote').summernote({
+        onblur: function(e) {
+          $('#content').val($('#summernote').code())
+        }
+      });

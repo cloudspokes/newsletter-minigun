@@ -1,11 +1,5 @@
 var _ = require('underscore');
-
 var Template = require('../models/Template');
-
-/**
- * GET /
- * Templates page.
- */
 
 exports.index = function(req, res) {
   Template.find({}, function (err, records) {
@@ -18,6 +12,7 @@ exports.index = function(req, res) {
 
 exports.show = function(req, res) {
   Template.findOne({'_id': req.params.id}, function(err, item) {
+    //item.body.replace("\n", "<br/>");
     res.render('templates/show', {
       title: 'Template details', record: item
     });

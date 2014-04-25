@@ -1,0 +1,40 @@
+extends ../layout
+
+block content
+  .page-header
+    h1= title
+    p.lead
+      | Create a new campaign to be sent out.
+
+  form.form-horizontal(role='form', action="/campaigns/create" method='POST')
+    input(type='hidden', name='_csrf', value=token)
+    .form-group
+      label(class='col-sm-2 control-label', for='name') Name
+      .col-sm-6
+        input.form-control(type='text', name='name', id='name', autofocus=true)   
+    .form-group
+      label(class='col-sm-2 control-label', for='description') Short Description
+      .col-sm-8
+        input.form-control(type='text', name='description', id='description')           
+    .form-group
+      label(class='col-sm-2 control-label', for='query') Email Template 
+      .col-sm-5
+        select.form-control(type='text', name='template', id='template')
+          each template in templates
+            option(value=template._id) #{template.name}
+    .form-group
+      label(class='col-sm-2 control-label', for='group') Recipients
+      .col-sm-5
+        select.form-control(type='text', name='group', id='group')
+          each group in groups
+            option(value=group._id) #{group.name}            
+    .form-group
+      label(class='col-sm-2 control-label', for='challengesQuery') Challenges
+      .col-sm-5
+        select.form-control(type='text', name='challengesQuery', id='challengesQuery')
+          each cq in challenges
+            option(value=cq._id) #{cq.name}        
+    .form-group
+      .col-sm-offset-2.col-sm-8
+        button.btn.btn-default(type='submit')
+          | Save

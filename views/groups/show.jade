@@ -1,0 +1,36 @@
+extends ../layout
+
+block content
+  .page-header
+    h1= title
+    p.lead
+      | Feel free to 
+      a(href="/groups/#{record.id}/edit") edit it
+      |  if you need to.    
+
+  dl.dl-horizontal.lead
+    dt Name
+    dd= record.name
+    dt Description
+    dd= record.description
+    dt Query
+    dd= record.query
+    dt Available?
+    dd= record.availableForUse    
+
+
+  br
+  p.lead
+    | Here is a preview of the first 10 records in the resultset.
+
+    table.table.table-striped
+      thead
+        tr
+          th Id
+          th Name
+          th Email
+      for record in records
+        tr
+          td= record._fields.id
+          td= record._fields.name
+          td= record._fields.email__c
